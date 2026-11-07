@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENVIO — курсы английского в Бишкеке</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Вариант 1 «Спираль» — фирменный стиль их Instagram.
+   Фиолетовый круг логотипа, лавандовые плашки как в постах, градиентное кольцо сторис (розовый → оранжевый).
+   Аудитория: подписчики Instagram, студенты и школьники. Главная фишка — спираль уровней Elementary → Advanced. */
+:root{
+  --violet:#5B1F80; --violet-2:#7B3FC4; --lav:#EEE7FD; --lav-2:#D7C8FA; --ink:#22132F; --muted:#6C5F7C;
+  --pink:#E2338C; --sun:#FFAE2B; --bg:#FBF9FF; --white:#fff; --line:#E6DDF5;
+  --ring:conic-gradient(from 210deg,#FFAE2B,#F2552C,#E2338C,#B13BD1,#FFAE2B);
+  --h:"Unbounded",system-ui,sans-serif; --b:"Manrope",system-ui,sans-serif;
+  --mb-bg:#fff; --mb-fg:var(--violet); --ph-bg:#E7DDFA; --ph-fg:#9D86C9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--b);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--h);line-height:1.12;margin:0;letter-spacing:-.01em}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.btn{display:inline-flex;align-items:center;gap:9px;border:0;border-radius:999px;padding:13px 22px;font:700 15px/1 var(--b);text-decoration:none;white-space:nowrap}
+.btn svg{width:19px;height:19px}
+.btn-wa{background:#25D366;color:#fff}
+.btn-v{background:var(--violet);color:#fff}
+.btn-ghost{background:var(--white);color:var(--violet);box-shadow:inset 0 0 0 2px var(--lav-2)}
+.btn-gis{background:#2FB540;color:#fff}
+
+/* ---------- шапка ---------- */
+header{position:sticky;top:0;z-index:50;background:rgba(251,249,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:22px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--violet)}
+.logo svg{width:44px;height:44px}
+.logo b{font:800 20px/1 var(--h);letter-spacing:.04em}
+.logo small{display:block;font:600 11px/1.2 var(--b);color:var(--muted);letter-spacing:0;margin-top:3px;white-space:nowrap}
+.hd nav{display:flex;gap:15px;margin-left:4px}
+.hd nav a{text-decoration:none;font-weight:600;font-size:14.5px;color:var(--muted)}
+.hd nav a:hover{color:var(--violet)}
+.hd .tel{margin-left:auto;text-decoration:none;text-align:right;line-height:1.15}
+.hd .tel b{display:block;font:700 17px/1.1 var(--h);color:var(--violet);white-space:nowrap}
+.hd .tel span{font-size:12px;color:var(--muted)}
+.hd .acts{display:flex;gap:8px;align-items:center}
+.hd .btn{padding:11px 16px;font-size:14px}
+.lang{display:flex;background:var(--lav);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;border-radius:999px;padding:6px 10px;font:700 12.5px/1 var(--b);color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--violet);color:#fff}
+.ic{display:none}
+
+/* ---------- первый экран ---------- */
+.hero{padding:28px 0 22px}
+.hero .wrap{display:grid;grid-template-columns:1.02fr .98fr;gap:30px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--lav);color:var(--violet);border-radius:999px;padding:7px 14px 7px 8px;font-weight:700;font-size:14px}
+.pill i{width:22px;height:22px;border-radius:50%;background:var(--ring);display:grid;place-items:center;position:relative}
+.pill i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--violet)}
+.hero h1{font-size:clamp(30px,3.5vw,46px);font-weight:800;color:var(--violet);margin:16px 0 14px}
+.hero h1 span{display:block;color:var(--ink);font-weight:500;font-size:.56em;margin-top:10px;letter-spacing:0}
+.hero p.lead{font-size:17px;color:var(--muted);margin:0 0 22px;max-width:500px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.hero .btn{padding:16px 24px;font-size:16px}
+.facts{display:flex;gap:26px;margin-top:24px;flex-wrap:wrap}
+.facts div{line-height:1.2}
+.facts b{display:block;font:800 26px/1 var(--h);color:var(--violet)}
+.facts span{font-size:13.5px;color:var(--muted)}
+
+/* спираль уровней */
+.spiral{position:relative;background:var(--violet);border-radius:36px;padding:22px 22px 18px;color:#fff;overflow:hidden}
+.spiral::before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#8a4fd6 0,transparent 70%);opacity:.6}
+.sp-top{display:flex;justify-content:space-between;align-items:center;position:relative}
+.sp-top h2{font-size:17px;font-weight:700}
+.sp-top span{font-size:12.5px;opacity:.75}
+.sp-body{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center;position:relative}
+.sp-svg{width:100%;max-width:300px;aspect-ratio:1;display:block;margin:auto}
+.sp-svg .track{fill:none;stroke:rgba(255,255,255,.14);stroke-width:12;stroke-linecap:round}
+.sp-svg .road{fill:none;stroke:url(#spg);stroke-width:6;stroke-linecap:round}
+.sp-svg .road.draw{animation:draw 2.2s cubic-bezier(.6,.1,.3,1) both}
+@keyframes draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.dot{cursor:pointer}
+.dot circle{fill:#fff;stroke:var(--violet);stroke-width:4;transition:r .2s}
+.dot text{font:800 11px var(--h);fill:var(--violet);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.dot.on circle{fill:var(--sun);stroke:#fff}
+.dot:focus{outline:none}
+.dot:focus-visible circle{stroke:var(--sun);stroke-width:6}
+.lv-card{background:#fff;color:var(--ink);border-radius:22px;padding:18px 18px 16px}
+.lv-card small{font-weight:700;color:var(--pink);font-size:12.5px}
+.lv-card h3{font-size:20px;color:var(--violet);margin:4px 0 10px}
+.lv-card ul{margin:0 0 12px;padding:0;list-style:none;font-size:14px}
+.lv-card li{display:flex;gap:8px;margin:6px 0}
+.lv-card li svg{flex:0 0 18px;height:18px;color:#1FA36B;margin-top:2px}
+.lv-card .meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.sp-hint{position:relative;font-size:12.5px;opacity:.8;margin-top:8px;text-align:center}
+
+/* ---------- хайлайты-меню ---------- */
+.hl{padding:6px 0 30px}
+.hl ul{display:flex;gap:22px;list-style:none;margin:0;padding:4px 2px;justify-content:space-between;overflow-x:auto;scrollbar-width:none}
+.hl a{display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;font-size:13.5px;font-weight:600;min-width:84px}
+.hl .r{width:84px;height:84px;border-radius:50%;background:var(--ring);padding:3px;transition:transform .2s}
+.hl .r i{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--lav);border:3px solid var(--bg);color:var(--violet)}
+.hl .r svg{width:32px;height:32px}
+.hl a:hover .r{transform:scale(1.06)}
+
+/* ---------- общие секции ---------- */
+section.s{padding:56px 0}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px}
+.sh h2{font-size:clamp(26px,3vw,38px);color:var(--violet)}
+.sh p{margin:8px 0 0;color:var(--muted);max-width:520px}
+.badge{display:inline-flex;width:46px;height:46px;border-radius:50%;background:var(--ring);padding:3px;flex:0 0 46px;margin-bottom:12px}
+.badge i{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--violet);color:#fff}
+.badge svg{width:22px;height:22px}
+
+/* наборы и расписание — в стиле их поста «Начни утро с английского» */
+.sets{background:var(--lav)}
+.sets-grid{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:18px}
+.post{background:linear-gradient(160deg,#A98BF0,#7B3FC4 70%);color:#fff;border-radius:28px;padding:26px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column}
+.post .tag{align-self:flex-start;background:#fff;color:var(--violet);font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 12px}
+.post h3{font-size:28px;font-weight:800;margin:16px 0 18px;line-height:1.05}
+.slot{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.slot .d{background:#fff;color:var(--violet);border-radius:12px;padding:9px 12px;font:700 14px/1 var(--h)}
+.slot .t{background:var(--violet);border:2px solid #fff;border-radius:12px;padding:8px 12px;font:800 16px/1 var(--h)}
+.post .btn{margin-top:auto;align-self:flex-start;background:#fff;color:var(--violet)}
+.post .clock{position:absolute;right:-18px;bottom:-18px;width:130px;opacity:.25}
+.grp{background:#fff;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.grp .top{display:flex;justify-content:space-between;align-items:center}
+.grp .top b{font:700 18px/1.1 var(--h);color:var(--violet)}
+.grp .top span{font-size:12.5px;font-weight:700;color:var(--pink);background:#FDE7F2;border-radius:999px;padding:5px 10px}
+.grp ul{margin:0;padding:0;list-style:none}
+.grp li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.grp li b{font-family:var(--h);font-size:15px}
+.grp .free{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#14864f;font-weight:700}
+.grp .free::before{content:"";width:7px;height:7px;border-radius:50%;background:#1FA36B}
+.grp .btn{margin-top:auto;justify-content:center}
+.season{margin-top:18px;display:flex;align-items:center;gap:16px;background:#fff;border-radius:999px;padding:10px 12px 10px 22px;box-shadow:inset 0 0 0 2px var(--lav-2)}
+.season b{color:var(--violet)}
+.season span{color:var(--muted);font-size:14.5px}
+.season .btn{margin-left:auto}
+
+/* цены */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pr{border-radius:26px;padding:24px;background:#fff;box-shadow:inset 0 0 0 2px var(--line);display:flex;flex-direction:column}
+.pr.hot{background:var(--violet);color:#fff;box-shadow:none;position:relative}
+.pr.hot .lbl{position:absolute;top:-12px;right:20px;background:var(--sun);color:var(--ink);font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 12px}
+.pr h3{font-size:18px;font-weight:700}
+.pr .sum{font:800 34px/1 var(--h);margin:16px 0 4px;color:var(--violet)}
+.pr.hot .sum{color:#fff}
+.pr .per{font-size:13.5px;color:var(--muted)}
+.pr.hot .per,.pr.hot li{color:#E9DEFF}
+.pr ul{list-style:none;padding:0;margin:16px 0 20px;font-size:14.5px}
+.pr li{display:flex;gap:8px;margin:7px 0;color:var(--muted)}
+.pr li svg{flex:0 0 18px;height:18px;color:#1FA36B;margin-top:2px}
+.pr.hot li svg{color:var(--sun)}
+.pr .btn{margin-top:auto;justify-content:center}
+.trial{margin-top:18px;display:flex;align-items:center;gap:14px;font-weight:600;color:var(--violet)}
+.trial svg{width:22px;height:22px}
+
+/* преподаватели */
+.teach{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tc{background:#fff;border-radius:26px;overflow:hidden;box-shadow:inset 0 0 0 2px var(--line)}
+.tc .ph{aspect-ratio:4/3.6;border-radius:0}
+.tc .ph::after{content:"фото";position:absolute;top:12px;left:12px;font-size:11px;font-weight:700;background:rgba(255,255,255,.7);color:var(--violet);border-radius:999px;padding:3px 9px}
+.tc .in{padding:16px 18px 18px}
+.tc b{display:block;font:700 18px/1.2 var(--h);color:var(--violet)}
+.tc .sp{font-size:14px;color:var(--muted);margin-top:4px}
+.tc .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tc .tags span{font-size:12px;font-weight:700;background:var(--lav);color:var(--violet);border-radius:999px;padding:4px 10px}
+
+/* студент месяца */
+.best{background:var(--violet);color:#fff;border-radius:36px;padding:34px;display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center;overflow:hidden;position:relative}
+.best h2{font-size:clamp(26px,3vw,38px)}
+.best p{color:#E3D6FF;margin:14px 0 22px;max-width:440px}
+.prize{display:flex;gap:14px;justify-content:center;align-items:flex-end}
+.tee{width:190px}
+.cert{width:190px;background:#fff;border-radius:10px;padding:16px;color:var(--ink);transform:rotate(4deg);box-shadow:0 20px 40px -20px rgba(0,0,0,.5)}
+.cert b{display:block;font:800 13px/1 var(--h);color:var(--violet);text-align:center;letter-spacing:.06em}
+.cert i{display:block;height:6px;border-radius:4px;background:var(--lav);margin:9px 0}
+.cert i:nth-of-type(2){width:70%;margin-inline:auto}
+.cert .seal{width:36px;height:36px;border-radius:50%;background:var(--ring);margin:10px auto 0}
+
+/* отзывы-сторис */
+.rv{display:grid;grid-template-columns:380px 1fr;gap:34px;align-items:center}
+.story{position:relative;background:linear-gradient(170deg,#7B3FC4,#5B1F80);color:#fff;border-radius:30px;padding:18px 22px 24px;min-height:440px;display:flex;flex-direction:column}
+.bars{display:flex;gap:5px}
+.bars i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);overflow:hidden}
+.bars i b{display:block;height:100%;width:0;background:#fff}
+.bars i.done b{width:100%}
+.bars i.cur b{animation:fill 6s linear forwards}
+@keyframes fill{to{width:100%}}
+.who{display:flex;align-items:center;gap:10px;margin:16px 0 22px}
+.who .av{width:42px;height:42px;border-radius:50%;background:var(--ring);padding:2px}
+.who .av i{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--lav);color:var(--violet);font:800 15px var(--h);font-style:normal}
+.who b{display:block;font-size:15px}
+.who span{font-size:12.5px;opacity:.75}
+.story blockquote{margin:0;font:600 22px/1.4 var(--b)}
+.story .lvl{margin-top:auto;display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;background:rgba(255,255,255,.14);border-radius:999px;padding:9px 14px;align-self:flex-start}
+.story .lvl b{color:var(--sun)}
+.story .nav{position:absolute;inset:60px 0 70px;display:flex}
+.story .nav button{flex:1;background:none;border:0}
+.rv-side h2{font-size:clamp(26px,3vw,38px);color:var(--violet)}
+.rv-side p{color:var(--muted)}
+.score{display:flex;gap:26px;margin:24px 0}
+.score b{display:block;font:800 34px/1 var(--h);color:var(--violet)}
+.score span{font-size:13.5px;color:var(--muted)}
+.stars{display:flex;gap:2px;color:var(--sun);margin-top:6px}
+.stars svg{width:17px;height:17px}
+.thumbs{display:flex;gap:12px}
+.thumbs button{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.thumbs .av{width:58px;height:58px;border-radius:50%;padding:3px;background:var(--line)}
+.thumbs button[aria-current="true"] .av{background:var(--ring)}
+.thumbs .av i{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--lav);border:3px solid var(--bg);color:var(--violet);font:800 17px var(--h);font-style:normal}
+
+/* FAQ */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
+.faq details{background:#fff;border-radius:20px;box-shadow:inset 0 0 0 2px var(--line);padding:0 20px}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:14px;align-items:center;padding:17px 0;font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:700 22px/1 var(--h);color:var(--violet);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 18px;color:var(--muted);font-size:15px}
+
+/* контакты */
+.ct{display:grid;grid-template-columns:1fr 1.1fr;gap:24px}
+.ct-card{background:var(--violet);color:#fff;border-radius:32px;padding:32px}
+.ct-card h2{font-size:clamp(26px,3vw,36px)}
+.ct-row{display:flex;gap:14px;margin-top:20px;align-items:flex-start}
+.ct-row svg{flex:0 0 22px;height:22px;color:var(--sun);margin-top:3px}
+.ct-row b{display:block;font-size:17px}
+.ct-row a{text-decoration:none}
+.ct-row span{color:#E3D6FF;font-size:14px}
+.ct-card .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.ct-card .btn-ig{background:var(--ring);color:#fff}
+.map{border-radius:32px;background:#E9E2F7;position:relative;overflow:hidden;min-height:360px}
+.map svg.streets{position:absolute;inset:0;width:100%;height:100%}
+.map .pinm{position:absolute;left:52%;top:44%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center}
+.map .pinm b{background:var(--violet);color:#fff;border-radius:14px;padding:8px 12px;font-size:13.5px;white-space:nowrap;box-shadow:0 10px 24px -10px rgba(60,20,90,.6)}
+.map .pinm i{width:16px;height:16px;background:var(--violet);transform:rotate(45deg);margin-top:-9px}
+.map .btn{position:absolute;left:18px;bottom:18px}
+footer{padding:26px 0 34px;color:var(--muted);font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* тест уровня — фиолетовая карточка, ответы-«таблетки» */
+.tst{display:grid;grid-template-columns:.8fr 1.2fr;gap:34px;align-items:center}
+.tst h2{font-size:clamp(26px,3vw,38px);color:var(--violet)}
+.tst-side p{color:var(--muted);margin:10px 0 0}
+.tst-l{list-style:none;padding:0;margin:18px 0 0}
+.tst-l li{display:flex;gap:10px;margin:9px 0;font-weight:600}
+.tst-l svg{flex:0 0 20px;height:20px;color:#1FA36B;margin-top:2px}
+.qbox{background:var(--violet);color:#fff;border-radius:32px;padding:28px;min-height:360px;
+  --qa:var(--sun);--qopt:rgba(255,255,255,.12);--qh:var(--h);--qtrack:rgba(255,255,255,.22);--qnext:rgba(255,255,255,.1);--qcall:#fff;--qcallfg:var(--violet);--qr:999px}
+.qbox .qt-next{border-radius:22px}
+.sp-hint a{color:#fff;font-weight:700}
+
+/* ---------- телефон ---------- */
+@media (max-width:1060px){
+  .hd nav{display:none}
+  .teach{grid-template-columns:repeat(2,1fr)}
+  .sets-grid{grid-template-columns:1fr 1fr}.post{grid-column:1/-1;min-height:0}
+}
+@media (max-width:760px){
+  .wrap{padding:0 16px}
+  .hd{height:62px;gap:10px}
+  .logo svg{width:38px;height:38px}.logo small{display:none}
+  .hd .tel,.hd .acts .btn{display:none}
+  .hd .acts{margin-left:auto}
+  .ic{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--lav);color:var(--violet)}
+  .ic.w{background:#25D366;color:#fff}
+  .ic svg{width:20px;height:20px}
+  .hero{padding:22px 0 10px}
+  .hero .wrap,.rv,.ct,.best,.faq{grid-template-columns:1fr}
+  .hero h1{font-size:32px;margin-top:14px}
+  .hero p.lead{font-size:16px}
+  .hero .btn{flex:1;justify-content:center;padding:15px 16px}
+  .facts{gap:18px;margin-top:22px}.facts b{font-size:22px}
+  .sp-body{grid-template-columns:1fr}
+  .tst{grid-template-columns:1fr;gap:20px}
+  .qbox{padding:22px 18px;border-radius:26px;min-height:0}
+  .sp-svg{max-width:250px}
+  .hl ul{justify-content:flex-start;gap:14px}
+  .hl a{min-width:70px;font-size:12px}.hl .r{width:68px;height:68px}.hl .r svg{width:26px;height:26px}
+  section.s{padding:40px 0}
+  .sh{display:block}
+  .sets-grid,.prices{grid-template-columns:1fr}
+  .post h3{font-size:24px}
+  .season{flex-wrap:wrap;border-radius:22px;padding:16px}.season .btn{margin-left:0;width:100%;justify-content:center}
+  .teach{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;scrollbar-width:none}
+  .tc{flex:0 0 74%;scroll-snap-align:start}
+  .best{padding:26px 20px;border-radius:28px}
+  .tee,.cert{width:140px}
+  .story{min-height:400px}
+  .rv-side{order:-1}
+  .score{margin:16px 0}
+  .map{min-height:260px}
+  .ct-card{padding:24px 20px}
+  .ct-card .btn{flex:1;justify-content:center}
+}
+</style>
+</head>
+<body>
+<!--SWITCH:START-->
+<style>
+  .sw-bar{position:sticky;top:0;z-index:100;display:none;align-items:center;gap:12px;flex-wrap:wrap;
+    background:#1a1028;color:#fff;font:500 13px/1.2 system-ui,"Segoe UI",sans-serif;
+    padding:7px max(12px,env(safe-area-inset-right)) 7px max(12px,env(safe-area-inset-left))}
+  body.has-sw .sw-bar{display:flex}
+  body.has-sw header{top:var(--swh,44px)}
+  .sw-bar .sw-t{font-weight:700;letter-spacing:.08em;white-space:nowrap}
+  .sw-bar .sw-t span{font-weight:400;letter-spacing:0;color:#a99bbf;margin-left:6px}
+  .sw-bar .sw-g{display:flex;background:#2b1d40;border-radius:9px;padding:3px}
+  .sw-bar .sw-g:first-of-type{margin-left:auto}
+  .sw-bar a{color:#cbbfe0;text-decoration:none;padding:6px 11px;border-radius:7px;white-space:nowrap}
+  .sw-bar a:hover{color:#fff}
+  .sw-bar a[aria-current="true"]{background:#fff;color:#1a1028;font-weight:600}
+  .sw-bar a:focus-visible{outline:2px solid #FFAE2B;outline-offset:2px}
+  @media (max-width:700px){.sw-bar .sw-t{display:none}.sw-bar .sw-g:first-of-type{margin-left:0}.sw-bar .sw-g{flex:1}.sw-bar a{flex:1;text-align:center;padding:6px 4px}}
+</style>
+<nav class="sw-bar" aria-label="Переключатель макетов"><div class="sw-t">ENVIO<span>макеты сайта</span></div><div class="sw-g" role="group" aria-label="Сайт"><a href="v1-spiral.html" aria-current="true">1 · Спираль</a><a href="v2-grafik.html" aria-current="false">2 · График</a><a href="v3-govorim.html" aria-current="false">3 · Говорим</a></div><div class="sw-g" role="group" aria-label="Устройство"><a href="v1-spiral.html" aria-current="true">ПК</a><a href="index.html#v1-mob" aria-current="false">Телефон</a></div></nav>
+<script>if(window.top===window.self){document.body.classList.add("has-sw");const swh=()=>{const h=document.querySelector(".sw-bar").offsetHeight;document.body.style.setProperty("--swh",h+"px");document.documentElement.style.scrollPaddingTop=(h+90)+"px";};swh();addEventListener("resize",swh);}</script>
+<!--SWITCH:END-->
+
+<header>
+  <div class="wrap hd">
+    <a class="logo" href="#top" aria-label="ENVIO, на главную">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#5B1F80"/><path d="M25 30.5c-4 .3-7.4-2.4-7.4-6.2 0-3.4 2.8-6 6.2-6 3.6 0 6.5 2.8 6.5 6.6 0 5.6-4.6 9.6-10.3 9.6-6 0-10.6-4.5-10.6-10.4C9.4 16 15.6 10 23.5 10c5.4 0 9.6 2.5 12 6.2" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="m31.5 11.3 5.4 5.6 1.5-7.8z" fill="#fff"/></svg>
+      <span><b>ENVIO</b><small data-kg="Англис тили курстары">Курсы английского языка</small></span>
+    </a>
+    <nav aria-label="Разделы">
+      <a href="#sets" data-kg="Топтор">Группы</a>
+      <a href="#test" data-kg="Тест">Тест</a>
+      <a href="#prices" data-kg="Баалар">Цены</a>
+      <a href="#team" data-kg="Мугалимдер">Преподаватели</a>
+      <a href="#reviews" data-kg="Пикирлер">Отзывы</a>
+      <a href="#contacts" data-kg="Байланыш">Контакты</a>
+    </nav>
+    <a class="tel" href="tel:+996558399955"><b>+996 558 399 955</b><span data-kg="Звондоо же WhatsApp">Звоните или пишите в WhatsApp</span></a>
+    <div class="acts">
+      <a class="btn btn-gis" data-gis href="#"><svg><use href="#i-pin"/></svg>2ГИС</a>
+      <a class="btn btn-wa" data-wa href="#"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+      <a class="ic" href="tel:+996558399955" aria-label="Позвонить" data-kg-aria="Чалуу"><svg><use href="#i-phone"/></svg></a>
+      <a class="ic w" data-wa href="#" aria-label="WhatsApp"><svg><use href="#i-wa"/></svg></a>
+      <div class="lang" role="group" aria-label="Язык"><button data-l="ru">RU</button><button data-l="kg">KG</button></div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<!-- ===== Первый экран: обещание + спираль уровней ===== -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pill"><i></i><span data-kg="Бишкекте 7 жыл · 14,9 миң окурман">7 лет в Бишкеке · 14,9 тыс. подписчиков</span></span>
+      <h1 data-kg="Жаттабай жана зериктирбей англисче<span>Бишкекти ишенимдүү сүйлөөгө үйрөтөбүз</span>">Английский без зубрёжки и скучных уроков<span>Учим Бишкек говорить увереннее</span></h1>
+      <p class="lead" data-kg="Elementary деңгээлинен Advanced деңгээлине чейин. Офлайн — Ботаникалык бак ТК, же онлайн. Деңгээлиңизди биринчи сынамык сабакта аныктайбыз.">От Elementary до Advanced. Офлайн в ЖК «Ботанический сад» или онлайн. Уровень определим на первом пробном уроке.</p>
+      <div class="cta">
+        <a class="btn btn-wa" data-wa href="#"><svg><use href="#i-wa"/></svg><span data-kg="Сынамык сабакка жазылуу">Записаться на пробный урок</span></a>
+        <a class="btn btn-ghost" href="#sets"><svg><use href="#i-cal"/></svg><span data-kg="Жүгүртмө">Расписание</span></a>
+      </div>
+      <div class="facts">
+        <div><b>7</b><span data-kg="жыл окутабыз">лет обучаем</span></div>
+        <div><b>5</b><span data-kg="деңгээл">уровней</span></div>
+        <div><b>2</b><span data-kg="формат: офлайн жана онлайн">формата: офлайн и онлайн</span></div>
+      </div>
+    </div>
+
+    <div class="spiral" aria-labelledby="spT">
+      <div class="sp-top"><h2 id="spT" data-kg="Сиздин спиралыңыз">Ваша спираль роста</h2><span data-kg="Деңгээлди басыңыз">Нажмите на уровень</span></div>
+      <div class="sp-body">
+        <svg class="sp-svg" viewBox="0 0 300 300" role="group" aria-label="Уровни английского: от Elementary до Advanced">
+          <defs><linearGradient id="spg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FFAE2B"/><stop offset=".5" stop-color="#E2338C"/><stop offset="1" stop-color="#C79BFF"/></linearGradient></defs>
+          <path class="track" id="spPath"/>
+          <path class="road" id="spRoad"/>
+          <path id="spArrow" d="M0-11 14 0 0 11z" fill="#C79BFF"/>
+          <g id="spDots"></g>
+        </svg>
+        <div class="lv-card" aria-live="polite">
+          <small id="lvN">1 / 5</small>
+          <h3 id="lvT">Elementary</h3>
+          <ul id="lvL"></ul>
+          <div class="meta"><span id="lvD"></span><span id="lvG"></span></div>
+        </div>
+      </div>
+      <p class="sp-hint" data-kg="Деңгээлиңизди билбейсизби? <a href='#test'>10 суроолук тесттен өтүңүз</a>">Не знаете свой уровень? <a href="#test">Пройдите тест из 10 вопросов</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Хайлайты как в Instagram — быстрое меню ===== -->
+<nav class="hl" aria-label="Быстрое меню">
+  <div class="wrap">
+    <ul>
+      <li><a href="#sets"><span class="r"><i><svg><use href="#i-users"/></svg></i></span><span data-kg="Топтор">Группы</span></a></li>
+      <li><a href="#team"><span class="r"><i><svg><use href="#i-cap"/></svg></i></span><span data-kg="Мугалимдер">Преподаватели</span></a></li>
+      <li><a href="#best"><span class="r"><i><svg><use href="#i-trophy"/></svg></i></span><span data-kg="Студенттер">Студенты</span></a></li>
+      <li><a href="#sets"><span class="r"><i><svg><use href="#i-cal"/></svg></i></span><span data-kg="Кабыл алуу">Наборы</span></a></li>
+      <li><a href="#prices"><span class="r"><i><svg><use href="#i-tag"/></svg></i></span><span data-kg="Баалар">Цены</span></a></li>
+      <li><a href="#test"><span class="r"><i><svg><use href="#i-star"/></svg></i></span><span data-kg="Тест">Тест</span></a></li>
+      <li><a href="#reviews"><span class="r"><i><svg><use href="#i-chat"/></svg></i></span><span data-kg="Пикирлер">Отзывы</span></a></li>
+      <li><a href="#faq"><span class="r"><i><svg><use href="#i-q"/></svg></i></span>FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===== Наборы и расписание ===== -->
+<section class="s sets" id="sets">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="badge"><i><svg><use href="#i-cal"/></svg></i></span>
+        <h2 data-kg="Топтор жана жүгүртмө">Группы и расписание</h2>
+        <p data-kg="Ыңгайлуу убакытты тандаңыз — орун калган топтор жашыл белги менен.">Выберите удобное время — группы со свободными местами отмечены зелёным.</p></div>
+    </div>
+    <div class="sets-grid">
+      <article class="post">
+        <span class="tag" data-kg="Кабыл алуу ачык">Открыт набор</span>
+        <h3 data-kg="Таңды англисчеден баштаңыз!">Начни утро с английского!</h3>
+        <div class="slot"><span class="d" data-kg="ДШ · ШР · ЖМ">ПН · СР · ПТ</span><span class="t">09:30</span></div>
+        <div class="slot"><span class="d" data-kg="ШЕ · БШ · ИШ">ВТ · ЧТ · СБ</span><span class="t">10:30</span></div>
+        <a class="btn" data-wa="Здравствуйте! Хочу в утреннюю группу английского" data-wa-kg="Саламатсызбы! Эртең мененки англис тобуна жазылгым келет" href="#"><svg><use href="#i-wa"/></svg><span data-kg="Эртең мененки топко">В утреннюю группу</span></a>
+        <svg class="clock" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="55" r="38" fill="none" stroke="#fff" stroke-width="8"/><path d="M50 32v24l14 8" stroke="#fff" stroke-width="8" stroke-linecap="round" fill="none"/><circle cx="22" cy="14" r="10" fill="#fff"/><circle cx="78" cy="14" r="10" fill="#fff"/></svg>
+      </article>
+      <article class="grp">
+        <div class="top"><b data-kg="Күндүзгү">Дневные</b><span data-kg="2 орун калды">осталось 2 места</span></div>
+        <ul>
+          <li><span data-kg="ДШ · ШР · ЖМ">ПН · СР · ПТ</span><b>14:00</b></li>
+          <li><span data-kg="ШЕ · БШ">ВТ · ЧТ</span><b>15:30</b></li>
+          <li><span>Pre-Intermediate</span><span class="free" data-kg="орун бар">есть места</span></li>
+        </ul>
+        <a class="btn btn-ghost" data-wa="Здравствуйте! Хочу в дневную группу английского" data-wa-kg="Саламатсызбы! Күндүзгү англис тобуна жазылгым келет" href="#"><svg><use href="#i-wa"/></svg><span data-kg="Жазылуу">Записаться</span></a>
+      </article>
+      <article class="grp">
+        <div class="top"><b data-kg="Кечки">Вечерние</b><span data-kg="популярдуу">популярные</span></div>
+        <ul>
+          <li><span data-kg="ДШ · ШР · ЖМ">ПН · СР · ПТ</span><b>18:30</b></li>
+          <li><span data-kg="ШЕ · БШ · ИШ">ВТ · ЧТ · СБ</span><b>19:30</b></li>
+          <li><span>Intermediate</span><span class="free" data-kg="орун бар">есть места</span></li>
+        </ul>
+        <a class="btn btn-ghost" data-wa="Здравствуйте! Хочу в вечернюю группу английского" data-wa-kg="Саламатсызбы! Кечки англис тобуна жазылгым келет" href="#"><svg><use href="#i-wa"/></svg><span data-kg="Жазылуу">Записаться</span></a>
+      </article>
+    </div>
+    <div class="season">
+      <svg width="22" height="22" style="color:var(--pink)"><use href="#i-star"/></svg>
+      <div><b data-kg="Күзгү кабыл алуу — 15-ноябрга чейин.">Осенний набор — до 15 ноября.</b> <span data-kg="Топтор 1-декабрдан башталат. Топто 6–8 адам.">Группы стартуют 1 декабря. В группе 6–8 человек.</span></div>
+      <a class="btn btn-v" data-wa="Здравствуйте! Хочу попасть в осенний набор" data-wa-kg="Саламатсызбы! Күзгү кабыл алууга жазылгым келет" href="#"><svg><use href="#i-wa"/></svg><span data-kg="Орун ээлөө">Забронировать место</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Цены ===== -->
+<section class="s" id="prices">
+  <div class="wrap">
+    <div class="sh"><div><span class="badge"><i><svg><use href="#i-tag"/></svg></i></span>
+      <h2 data-kg="Баалар жана формат">Цены и формат</h2>
+      <p data-kg="Айына төлөйсүз. Китептер жана сабактын материалдары баага кирет.">Оплата помесячно. Учебники и материалы уроков уже входят в цену.</p></div></div>
+    <div class="prices">
+      <article class="pr">
+        <h3 data-kg="Онлайн топ">Онлайн-группа</h3>
+        <div class="sum">3 900 <small style="font-size:16px">сом</small></div><div class="per" data-kg="айына · 12 сабак">в месяц · 12 уроков</div>
+        <ul><li><svg><use href="#i-check"/></svg><span data-kg="Zoom аркылуу, үйдөн">Занятия в Zoom из дома</span></li><li><svg><use href="#i-check"/></svg><span data-kg="Сабактардын жазуулары">Записи уроков</span></li><li><svg><use href="#i-check"/></svg><span data-kg="Чат-топ жана үй тапшырма текшерүү">Чат группы и проверка домашки</span></li></ul>
+        <a class="btn btn-ghost" data-wa="Здравствуйте! Интересует онлайн-группа" data-wa-kg="Саламатсызбы! Онлайн топ кызыктырат" href="#"><span data-kg="Онлайн топко">Хочу онлайн</span></a>
+      </article>
+      <article class="pr hot">
+        <span class="lbl" data-kg="Көбүрөөк тандашат">Выбирают чаще</span>
+        <h3 data-kg="Офлайн топ">Офлайн-группа</h3>
+        <div class="sum">4 500 <small style="font-size:16px">сом</small></div><div class="per" data-kg="айына · 12 сабак · 6–8 адам">в месяц · 12 уроков · 6–8 человек</div>
+        <ul><li><svg><use href="#i-check"/></svg><span data-kg="Ботаникалык бак ТКдагы класс">Класс в ЖК «Ботанический сад»</span></li><li><svg><use href="#i-check"/></svg><span data-kg="Speaking club бекер">Speaking club бесплатно</span></li><li><svg><use href="#i-check"/></svg><span data-kg="Ар деңгээлдин аягында сертификат">Сертификат по окончании уровня</span></li></ul>
+        <a class="btn btn-wa" data-wa="Здравствуйте! Интересует офлайн-группа" data-wa-kg="Саламатсызбы! Офлайн топ кызыктырат" href="#"><svg><use href="#i-wa"/></svg><span data-kg="Офлайн топко">Хочу в группу</span></a>
+      </article>
+      <article class="pr">
+        <h3 data-kg="Жеке сабак">Индивидуально</h3>
+        <div class="sum">900 <small style="font-size:16px">сом</small></div><div class="per" data-kg="1 сабак · 60 мүнөт">за урок · 60 минут</div>
+        <ul><li><svg><use href="#i-check"/></svg><span data-kg="Өз максатыңызга программа">Программа под вашу цель</span></li><li><svg><use href="#i-check"/></svg><span data-kg="IELTS, жумуш, саякат">IELTS, работа, переезд</span></li><li><svg><use href="#i-check"/></svg><span data-kg="Каалаган убакыт">Любое удобное время</span></li></ul>
+        <a class="btn btn-ghost" data-wa="Здравствуйте! Интересуют индивидуальные занятия" data-wa-kg="Саламатсызбы! Жеке сабактар кызыктырат" href="#"><span data-kg="Жеке сабакка">Хочу индивидуально</span></a>
+      </article>
+    </div>
+    <p class="trial"><svg><use href="#i-star"/></svg><span data-kg="Сынамык сабак жана деңгээлди аныктоо — бекер, 40 мүнөт.">Пробный урок и определение уровня — бесплатно, 40 минут.</span></p>
+  </div>
+</section>
+
+<!-- ===== Тест уровня (10 вопросов) ===== -->
+<section class="s" id="test" style="padding-top:10px">
+  <div class="wrap tst">
+    <div class="tst-side">
+      <span class="badge"><i><svg><use href="#i-star"/></svg></i></span>
+      <h2 data-kg="Деңгээлиңизди билиңиз">Узнайте свой уровень</h2>
+      <p data-kg="10 суроо, болжол менен 2 мүнөт. Деңгээлди жана ылайыктуу топту дароо көрсөтөбүз, жыйынтыкты WhatsAppка жөнөтсөңүз болот.">10 вопросов, около 2 минут. Сразу покажем уровень и подходящую группу, а результат можно отправить нам в WhatsApp.</p>
+      <ul class="tst-l">
+        <li><svg><use href="#i-check"/></svg><span data-kg="Каттоосуз жана телефон номерисиз">Без регистрации и номера телефона</span></li>
+        <li><svg><use href="#i-check"/></svg><span data-kg="Туура жооп дароо көрүнөт">Правильный ответ видно сразу</span></li>
+        <li><svg><use href="#i-check"/></svg><span data-kg="Так деңгээлди сынамык сабакта тактайбыз">Точный уровень уточним на пробном уроке</span></li>
+      </ul>
+    </div>
+    <div class="qbox" id="qbox" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ===== Преподаватели ===== -->
+<section class="s" id="team" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sh"><div><span class="badge"><i><svg><use href="#i-cap"/></svg></i></span>
+      <h2 data-kg="Мугалимдер">Преподаватели</h2>
+      <p data-kg="Ар бир мугалим өз багытын алып барат — сиздин максатыңызга жараша тандайбыз.">У каждого своё направление — подберём преподавателя под вашу цель.</p></div></div>
+    <div class="teach">
+      <article class="tc"><div class="ph"><svg class="ph-i"><use href="#i-person"/></svg></div><div class="in"><b>Айпери Т.</b><div class="sp" data-kg="Сүйлөшүү англисчеси, Elementary–Intermediate">Разговорный английский, Elementary–Intermediate</div><div class="tags"><span>Speaking</span><span data-kg="5 жыл">5 лет</span></div></div></article>
+      <article class="tc"><div class="ph"><svg class="ph-i"><use href="#i-person"/></svg></div><div class="in"><b>Нурсултан А.</b><div class="sp" data-kg="IELTS даярдоо, Upper-Intermediate–Advanced">Подготовка к IELTS, Upper-Intermediate–Advanced</div><div class="tags"><span>IELTS 8.0</span><span data-kg="6 жыл">6 лет</span></div></div></article>
+      <article class="tc"><div class="ph"><svg class="ph-i"><use href="#i-person"/></svg></div><div class="in"><b>Алина К.</b><div class="sp" data-kg="Өспүрүмдөр 12–17 жаш, грамматика">Подростки 12–17 лет, грамматика</div><div class="tags"><span>Teens</span><span>CELTA</span></div></div></article>
+      <article class="tc"><div class="ph"><svg class="ph-i"><use href="#i-person"/></svg></div><div class="in"><b>Эрлан М.</b><div class="sp" data-kg="Бизнес англисчеси, жумуш маеги">Бизнес-английский, собеседования</div><div class="tags"><span>Business</span><span data-kg="4 жыл">4 года</span></div></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Лучший студент месяца ===== -->
+<section class="s" id="best" style="padding-top:10px">
+  <div class="wrap">
+    <div class="best">
+      <div>
+        <span class="badge"><i style="background:var(--sun);color:var(--ink)"><svg><use href="#i-trophy"/></svg></i></span>
+        <h2 data-kg="Айдын мыкты студенти">Лучший студент месяца</h2>
+        <p data-kg="Ар айда эң жигердүү студентке сертификат жана ENVIO фирмалык футболкасын тапшырабыз. Сабакка катышуу, үй тапшырма жана сүйлөөдөгү прогресс эсептелет.">Каждый месяц самому активному студенту вручаем сертификат и фирменную футболку ENVIO. Считаем посещаемость, домашку и прогресс в разговоре.</p>
+        <a class="btn" style="background:#fff;color:var(--violet)" href="https://www.instagram.com/envio_bishkek" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg><span data-kg="Instagramдан жеңүүчүлөр">Победители в Instagram</span></a>
+      </div>
+      <div class="prize" aria-hidden="true">
+        <svg class="tee" viewBox="0 0 200 190"><path d="M62 14 30 26 6 66l30 16 12-14v108h104V68l12 14 30-16-24-40-32-12c-4 14-20 22-38 22s-34-8-38-22z" fill="#7A1F3D"/><circle cx="100" cy="80" r="14" fill="none" stroke="#fff" stroke-width="5"/><path d="M107 74l5-4v6" fill="none" stroke="#fff" stroke-width="3"/></svg>
+        <div class="cert"><b>CERTIFICATE</b><i></i><i></i><i></i><div class="seal"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Отзывы как сторис ===== -->
+<section class="s" id="reviews" style="background:var(--lav)">
+  <div class="wrap rv">
+    <div class="story" id="story" aria-live="polite">
+      <div class="bars" id="bars"></div>
+      <div class="who"><span class="av"><i id="stA">Д</i></span><div><b id="stN"></b><span id="stM"></span></div></div>
+      <blockquote id="stQ"></blockquote>
+      <div class="lvl" id="stL"></div>
+      <div class="nav"><button aria-label="Предыдущий отзыв" id="stPrev"></button><button aria-label="Следующий отзыв" id="stNext"></button></div>
+    </div>
+    <div class="rv-side">
+      <span class="badge"><i><svg><use href="#i-chat"/></svg></i></span>
+      <h2 data-kg="Студенттер эмне дейт">Что говорят студенты</h2>
+      <p data-kg="Пикирлер сторис сыяктуу ачылат — оң жагын басып, кийинкисине өтүңүз.">Отзывы листаются как сторис — нажмите справа, чтобы перейти к следующему.</p>
+      <div class="score">
+        <div><b>4,9</b><div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div><span data-kg="2ГИСтеги баа">оценка в 2ГИС</span></div>
+        <div><b>14,9K</b><span data-kg="Instagramдагы окурмандар">подписчиков в Instagram</span></div>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="s" id="faq">
+  <div class="wrap">
+    <div class="sh"><div><span class="badge"><i><svg><use href="#i-q"/></svg></i></span><h2 data-kg="Көп берилүүчү суроолор">Частые вопросы</h2></div></div>
+    <div class="faq">
+      <details open><summary data-kg="Деңгээлимди билбесем эмне болот?">Не знаю свой уровень — что делать?</summary><p data-kg="Сынамык сабакта 15 мүнөттүк тест жана кыска маек өткөрөбүз. Андан кийин туура топту сунуштайбыз.">На пробном уроке проведём тест на 15 минут и короткую беседу. После этого предложим подходящую группу.</p></details>
+      <details><summary data-kg="Топто канча адам?">Сколько человек в группе?</summary><p data-kg="6–8 адам. Ар бир студент сабакта сүйлөөгө үлгүрөт.">6–8 человек. Каждый успевает говорить на уроке.</p></details>
+      <details><summary data-kg="Сабак өткөрүп жиберсем эмне болот?">Что, если пропущу урок?</summary><p data-kg="Онлайн топтордо жазуу калат, офлайнда мугалим материалды жөнөтөт.">В онлайн-группах остаётся запись, в офлайне преподаватель пришлёт материалы.</p></details>
+      <details><summary data-kg="Балдар үчүн топтор барбы?">Есть группы для подростков?</summary><p data-kg="Ооба, 12–17 жаштагылар үчүн өзүнчө топтор бар.">Да, есть отдельные группы для 12–17 лет.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Контакты ===== -->
+<section class="s" id="contacts" style="padding-top:10px">
+  <div class="wrap ct">
+    <div class="ct-card">
+      <h2 data-kg="Сынамык сабакка келиңиз">Приходите на пробный урок</h2>
+      <div class="ct-row"><svg><use href="#i-pin"/></svg><div><b data-kg="Ч. Айтматов пр., 4">пр. Чынгыза Айтматова, 4</b><span data-kg="Ботаникалык бак ТК, Бишкек">ЖК «Ботанический сад», Бишкек</span></div></div>
+      <div class="ct-row"><svg><use href="#i-phone"/></svg><div><a href="tel:+996558399955"><b>+996 558 399 955</b></a><a href="https://wa.me/996500065566" data-wa><b>+996 500 065 566</b></a><span>WhatsApp</span></div></div>
+      <div class="ct-row"><svg><use href="#i-clock"/></svg><div><b data-kg="ДШ–ИШ 9:00–20:00">Пн–Сб 9:00–20:00</b><span data-kg="Жекшемби — дем алыш">Воскресенье — выходной</span></div></div>
+      <div class="cta">
+        <a class="btn btn-wa" data-wa href="#"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+        <a class="btn btn-gis" data-gis href="#"><svg><use href="#i-pin"/></svg><span data-kg="2ГИСте ачуу">Открыть в 2ГИС</span></a>
+        <a class="btn btn-ig" href="https://www.instagram.com/envio_bishkek" target="_blank" rel="noopener"><svg><use href="#i-ig"/></svg>@envio_bishkek</a>
+      </div>
+    </div>
+    <div class="map" aria-label="Схема проезда">
+      <svg class="streets" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="#fff" stroke-linecap="round" fill="none"><path d="M-20 260 640 140" stroke-width="26"/><path d="M330 -20 290 420" stroke-width="16"/><path d="M-20 90 640 60" stroke-width="10"/><path d="M120 -20 90 420" stroke-width="10"/><path d="M480 -20 520 420" stroke-width="10"/></g><path d="M380 260c40-30 120-20 160 30v120H360z" fill="#CFE8C9"/><text x="420" y="350" font-family="Manrope" font-size="14" fill="#5C8F57" font-weight="700">Ботанический сад</text><text x="30" y="246" font-family="Manrope" font-size="13" fill="#8D7BB0" font-weight="700" transform="rotate(-10 30 246)">пр. Чынгыза Айтматова</text></svg>
+      <div class="pinm"><b>ENVIO · Айтматова, 4</b><i></i></div>
+      <a class="btn btn-gis" data-gis href="#"><svg><use href="#i-pin"/></svg><span data-kg="Маршрут куруу">Построить маршрут</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© ENVIO · <span data-kg="Бишкектеги англис тили курстары">курсы английского языка в Бишкеке</span></span><a href="tel:+996558399955">+996 558 399 955</a></div></footer>
+
+<!--CORE:START-->
+<!-- Общая часть для всех вариантов ENVIO (build.py вставляет её между CORE:START и CORE:END).
+     Здесь: значки (sprite), нижняя панель на телефоне, перевод RU/KG, ссылки WhatsApp.
+     Цвета панели задаёт вариант: --mb-bg, --mb-fg. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2.1 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l2 .9c.3.1.4.2.5.3.1.2.1.7-.2 1.3z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5M16 4.8a3.4 3.4 0 0 1 0 6.4M18 14.8c2 .6 3.2 2.4 3.5 5.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="7.5" cy="8.5" r="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 11v5c3.5 2.5 8.5 2.5 12 0v-5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.3 9.2a2.8 2.8 0 1 1 3.8 2.6c-.8.4-1.1.9-1.1 1.7v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0zM7 6H4c0 3 1.5 4.5 3.3 4.8M17 6h3c0 3-1.5 4.5-3.3 4.8M12 14v4M8 21h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 19h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21c.8-4.6 4-7 8-7s7.2 2.4 8 7z" fill="currentColor"/></symbol>
+</svg>
+
+<style>
+.mbar{display:none}
+.ph{position:relative;overflow:hidden;background:var(--ph-bg,#e9e3f4);color:var(--ph-fg,#9a8fb0)}
+.ph>svg.ph-i{position:absolute;left:50%;bottom:-6%;width:78%;height:78%;transform:translateX(-50%);opacity:.55}
+@media (max-width:760px){
+  body{padding-bottom:78px}
+  .mbar{display:grid;grid-template-columns:1fr 1.35fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--mb-bg,#fff);box-shadow:0 -8px 24px rgba(30,10,50,.14)}
+  .mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;padding:8px 4px;font:700 12px/1.2 system-ui,sans-serif;text-decoration:none;color:var(--mb-fg,#222);background:rgba(127,127,127,.13)}
+  .mbar svg{width:22px;height:22px}
+  .mbar a.wa{background:#25D366;color:#fff;font-size:13px}
+  .mbar a.gis{background:#2FB540;color:#fff}
+}
+/* ===== Тест уровня (10 вопросов) — общий для всех вариантов.
+   Цвета задаёт вариант через переменные на контейнере:
+   --qa акцент, --qopt фон ответа, --qh шрифт заголовков, --qtrack пустые полоски,
+   --qnext фон блока «что дальше», --qcall/--qcallfg кнопка «Позвонить», --qr скругление */
+.qt{display:flex;flex-direction:column}
+.qt-prog{display:flex;gap:5px;margin-bottom:16px}
+.qt-prog i{flex:1;height:6px;border-radius:6px;background:var(--qtrack,rgba(127,127,127,.2))}
+.qt-prog i.on{background:var(--qa,#6B2C91)}
+.qt-n{font-size:13.5px;font-weight:600;opacity:.75}
+.qt-q{font-family:var(--qh,inherit);font-weight:600;font-size:clamp(20px,2.2vw,26px);line-height:1.3;margin:8px 0 18px}
+.qt-q u{text-decoration:none;border-bottom:3px dotted var(--qa,#6B2C91);padding:0 8px}
+.qt-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qt-opts button{border:0;background:var(--qopt,#fff);color:inherit;border-radius:var(--qr,16px);padding:14px 16px;text-align:left;font-family:inherit;font-weight:600;font-size:16px;line-height:1.2;cursor:pointer;box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .15s,background .15s}
+.qt-opts button:hover:not(:disabled){box-shadow:inset 0 0 0 2px var(--qa,#6B2C91)}
+.qt-opts button.ok{background:#1FA36B;color:#fff}
+.qt-opts button.no{background:#E5484D;color:#fff}
+.qt-opts button:disabled{cursor:default}
+.qt-lvl{font-family:var(--qh,inherit);font-weight:700;font-size:clamp(30px,3.6vw,42px);line-height:1.05;color:var(--qa,#6B2C91);margin:6px 0 8px}
+.qt-dots{display:flex;gap:4px;margin:2px 0 12px}
+.qt-dots i{width:16px;height:8px;border-radius:4px;background:#E5484D;opacity:.75}
+.qt-dots i.ok{background:#1FA36B;opacity:1}
+.qt-res p{margin:0 0 14px}
+.qt-next{background:var(--qnext,rgba(127,127,127,.1));border-radius:var(--qr,16px);padding:14px 16px}
+.qt-next b{display:block;margin-bottom:10px}
+.qt-btns{display:flex;gap:8px;flex-wrap:wrap}
+.qt-btns a,.qt-btns button{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:var(--qr,16px);padding:12px 16px;font-family:inherit;font-weight:700;font-size:15px;line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
+.qt-btns svg{width:18px;height:18px}
+.qt-wa{background:#25D366;color:#fff}
+.qt-call{background:var(--qcall,var(--qa,#6B2C91));color:var(--qcallfg,#fff)}
+.qt-btns .qt-again{background:none;color:inherit;text-decoration:underline;opacity:.75;padding:12px 6px}
+@media (max-width:760px){.qt-opts{grid-template-columns:1fr}.qt-btns a{flex:1}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+<nav class="mbar" aria-label="Быстрая связь">
+  <a href="tel:+996558399955"><svg><use href="#i-phone"/></svg><span data-kg="Чалуу">Позвонить</span></a>
+  <a class="wa" data-wa href="https://wa.me/996500065566" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
+  <a class="gis" href="https://2gis.kg/bishkek/search/Envio%20%D0%90%D0%B9%D1%82%D0%BC%D0%B0%D1%82%D0%BE%D0%B2%D0%B0%204" target="_blank" rel="noopener"><svg><use href="#i-pin"/></svg>2ГИС</a>
+</nav>
+
+<script>
+/* ===== Перевод RU / KG =====
+   У любого элемента с текстом можно указать data-kg="кыргызский текст".
+   Кнопки переключения: любой элемент с data-l="ru" или data-l="kg".
+   Ссылки WhatsApp: <a data-wa="текст" data-wa-kg="текст"> — номер и готовое сообщение подставляются сами.
+   Ссылка 2ГИС: любой <a data-gis>. */
+(function(){
+  var WA = "https://wa.me/996500065566?text=";
+  var WA_RU = "Здравствуйте! Хочу записаться на пробный урок английского";
+  var WA_KG = "Саламатсызбы! Англис тилинен сынамык сабакка жазылгым келет";
+  var GIS = "https://2gis.kg/bishkek/search/Envio%20%D0%90%D0%B9%D1%82%D0%BC%D0%B0%D1%82%D0%BE%D0%B2%D0%B0%204";
+  window.ENLANG = "ru";
+  function set(l){
+    window.ENLANG = l;
+    document.querySelectorAll("[data-kg]").forEach(function(e){
+      if (e.dataset.ru === undefined) e.dataset.ru = e.innerHTML;
+      e.innerHTML = l === "kg" ? e.dataset.kg : e.dataset.ru;
+    });
+    document.querySelectorAll("[data-kg-aria]").forEach(function(e){
+      if (e.dataset.ruAria === undefined) e.dataset.ruAria = e.getAttribute("aria-label") || "";
+      e.setAttribute("aria-label", l === "kg" ? e.dataset.kgAria : e.dataset.ruAria);
+    });
+    document.documentElement.lang = l === "kg" ? "ky" : "ru";
+    document.querySelectorAll("[data-l]").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.l === l); });
+    window.ENwa();
+    try { localStorage.setItem("en-lang", l); } catch (e) {}
+    document.dispatchEvent(new CustomEvent("enlang", {detail: l}));
+  }
+  window.ENwa = function(){
+    document.querySelectorAll("a[data-wa]").forEach(function(a){
+      var t = window.ENLANG === "kg" ? (a.dataset.waKg || WA_KG) : (a.dataset.wa || WA_RU);
+      a.href = WA + encodeURIComponent(t); a.target = "_blank"; a.rel = "noopener";
+    });
+    document.querySelectorAll("a[data-gis]").forEach(function(a){ a.href = GIS; a.target = "_blank"; a.rel = "noopener"; });
+  };
+  window.ENwaLink = function(t){ return WA + encodeURIComponent(t); };
+  document.addEventListener("click", function(e){ var b = e.target.closest("[data-l]"); if (b) set(b.dataset.l); });
+  var l = "ru"; try { l = localStorage.getItem("en-lang") || "ru"; } catch (e) {}
+  set(l);
+})();
+window.ENreduced = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ===== Тест уровня: ENtest(элемент) — 10 вопросов → результат → WhatsApp с результатом или звонок ===== */
+(function(){
+  var Q=[
+    ["She ___ from Bishkek.",["is","are","am","be"],0],
+    ["There ___ two books on the table.",["is","are","be","am"],1],
+    ["I ___ to the cinema yesterday.",["go","went","have gone","was go"],1],
+    ["He usually ___ coffee in the morning.",["drink","drinks","drinking","is drink"],1],
+    ["If it rains, we ___ at home.",["stay","will stay","would stay","stayed"],1],
+    ["I've lived here ___ 2019.",["for","since","from","during"],1],
+    ["This is the ___ film I've ever seen.",["good","better","best","most good"],2],
+    ["The letter ___ yesterday.",["sent","was sent","has sent","is sending"],1],
+    ["If I ___ you, I would take this job.",["am","was being","were","will be"],2],
+    ["I wish I ___ more time last year.",["have","had","had had","would have"],2]
+  ];
+  var LV=[
+    {n:"Elementary",ru:"Начнём с основ. Подойдёт утренняя группа ПН·СР·ПТ 9:30 или онлайн в 20:00.",kg:"Негизден баштайбыз. ДШ·ШР·ЖМ 9:30дагы эртең мененки топ же онлайн 20:00 ылайык."},
+    {n:"Pre-Intermediate",ru:"Подойдёт группа ВТ·ЧТ·СБ 10:30 или вечерняя ПН·СР·ПТ 18:30.",kg:"ШЕ·БШ·ИШ 10:30 тобу же кечки ДШ·ШР·ЖМ 18:30 ылайык."},
+    {n:"Intermediate",ru:"Подойдёт группа ПН·СР·ПТ 14:00 или онлайн ВТ·ЧТ·СБ 19:30.",kg:"ДШ·ШР·ЖМ 14:00 тобу же онлайн ШЕ·БШ·ИШ 19:30 ылайык."},
+    {n:"Upper-Intermediate",ru:"Подойдёт группа ПН·СР 19:00 — можно сразу с подготовкой к IELTS.",kg:"ДШ·ШР 19:00 тобу ылайык — IELTS даярдоо менен."},
+    {n:"Advanced",ru:"Вам в группу Advanced / IELTS по субботам в 12:00.",kg:"Сизге ишемби күнү 12:00дөгү Advanced / IELTS тобу ылайык."}
+  ];
+  var MAP=[0,0,0,1,1,2,2,3,3,4,4];
+  window.ENtest=function(el){
+    var qi=0, ans=[], lock=false, n=Q.length;
+    el.classList.add("qt");
+    function draw(){
+      var kg=window.ENLANG==="kg";
+      var prog='<div class="qt-prog">'+Q.map(function(_,i){return '<i class="'+(i<=qi?"on":"")+'"></i>';}).join("")+'</div>';
+      if(qi>=n){
+        var sc=ans.filter(Boolean).length, r=LV[MAP[sc]];
+        var wa=kg?("Саламатсызбы! Сайттагы тесттен "+sc+"/10 алдым, деңгээлим — "+r.n+". Сынамык сабакка жазылгым келет.")
+                 :("Здравствуйте! Прошёл(а) тест на сайте: "+sc+" из 10, уровень "+r.n+". Хочу записаться на пробный урок.");
+        el.innerHTML=prog+'<div class="qt-res"><span class="qt-n">'+(kg?"Сиздин болжолдуу деңгээлиңиз":"Ваш примерный уровень")+'</span>'+
+          '<div class="qt-lvl">'+r.n+'</div>'+
+          '<div class="qt-dots" role="img" aria-label="'+sc+' / 10">'+ans.map(function(a){return '<i class="'+(a?"ok":"")+'"></i>';}).join("")+'</div>'+
+          '<p><b>'+(kg?("Туура жооптор: "+sc+" / 10. "):("Правильных ответов: "+sc+" из 10. "))+'</b>'+(kg?r.kg:r.ru)+'</p>'+
+          '<div class="qt-next"><b>'+(kg?"Эми эмне? Жыйынтыкты жөнөтүңүз — сынамык сабакка жазабыз жана деңгээлди тактайбыз.":"Что дальше? Отправьте результат — запишем на пробный урок и уточним уровень.")+'</b>'+
+          '<div class="qt-btns"><a class="qt-wa" target="_blank" rel="noopener" href="'+window.ENwaLink(wa)+'"><svg><use href="#i-wa"/></svg>'+(kg?"WhatsAppка жөнөтүү":"Отправить в WhatsApp")+'</a>'+
+          '<a class="qt-call" href="tel:+996558399955"><svg><use href="#i-phone"/></svg>'+(kg?"Чалуу":"Позвонить")+'</a>'+
+          '<button class="qt-again" type="button">'+(kg?"Кайра өтүү":"Пройти заново")+'</button></div></div></div>';
+        el.querySelector(".qt-again").onclick=function(){qi=0;ans=[];draw();};
+        return;
+      }
+      var q=Q[qi];
+      el.innerHTML=prog+'<span class="qt-n">'+(kg?"Суроо ":"Вопрос ")+(qi+1)+' / '+n+' · '+(kg?"Боштукту толтуруңуз":"Заполните пропуск")+'</span>'+
+        '<div class="qt-q">'+q[0].replace("___","<u>&nbsp;?&nbsp;</u>")+'</div>'+
+        '<div class="qt-opts">'+q[1].map(function(o,i){return '<button type="button" data-i="'+i+'">'+o+'</button>';}).join("")+'</div>';
+      el.querySelectorAll(".qt-opts button").forEach(function(b){
+        b.onclick=function(){
+          if(lock)return; lock=true;
+          var ok=+b.dataset.i===q[2]; ans.push(ok);
+          el.querySelectorAll(".qt-opts button").forEach(function(x){x.disabled=true; if(+x.dataset.i===q[2])x.classList.add("ok");});
+          if(!ok)b.classList.add("no");
+          setTimeout(function(){lock=false;qi++;draw();},window.ENreduced?150:650);
+        };
+      });
+    }
+    draw();
+    document.addEventListener("enlang",draw);
+  };
+})();
+</script>
+
+<!--CORE:END-->
+<script>
+/* ---------- Спираль уровней ---------- */
+const LV=[
+ {n:"Elementary",ru:["Представиться и рассказать о себе","Заказать еду и спросить дорогу","Понять простые фразы на слух"],kg:["Өзүңүздү тааныштыруу","Тамак буйруп, жол суроо","Жөнөкөй сөздөрдү угуп түшүнүү"],d:["≈ 3 месяца","≈ 3 ай"],g:["с нуля","нөлдөн"]},
+ {n:"Pre-Intermediate",ru:["Поддержать разговор в поездке","Написать письмо или сообщение","Понять короткие видео"],kg:["Саякатта сүйлөшүү","Кат же билдирүү жазуу","Кыска видеолорду түшүнүү"],d:["≈ 3 месяца","≈ 3 ай"],g:["A2","A2"]},
+ {n:"Intermediate",ru:["Смотреть сериалы с субтитрами","Переписываться по работе","Спорить и объяснять мнение"],kg:["Сериалдарды субтитр менен көрүү","Жумуш боюнча кат алышуу","Пикириңизди түшүндүрүү"],d:["≈ 4 месяца","≈ 4 ай"],g:["B1","B1"]},
+ {n:"Upper-Intermediate",ru:["Пройти собеседование на английском","Готовиться к IELTS 6.0+","Понимать подкасты без субтитров"],kg:["Англисче маектен өтүү","IELTS 6.0+ даярдануу","Подкасттарды субтитрсиз түшүнүү"],d:["≈ 4 месяца","≈ 4 ай"],g:["B2","B2"]},
+ {n:"Advanced",ru:["Свободно говорить на любые темы","Читать книги в оригинале","Сдать IELTS на 7.0+"],kg:["Каалаган темада эркин сүйлөө","Китептерди түп нускада окуу","IELTS 7.0+ тапшыруу"],d:["≈ 5 месяцев","≈ 5 ай"],g:["C1","C1"]}
+];
+let cur=0;
+const road=document.getElementById("spRoad"), path=document.getElementById("spPath"), dots=document.getElementById("spDots");
+/* Архимедова спираль от центра наружу: r = 12 + 6.9·θ (в радианах), почти 3 витка */
+(function(){let d="",th=0,last;const T=Math.PI*5.6;for(th=0;th<=T;th+=0.08){const r=12+6.9*th,x=150+r*Math.cos(th-Math.PI/2),y=150+r*Math.sin(th-Math.PI/2);d+=(d?"L":"M")+x.toFixed(1)+" "+y.toFixed(1);last=[x,y,th];}
+path.setAttribute("d",d);road.setAttribute("d",d);
+const th2=last[2],r2=12+6.9*th2,dx=6.9*Math.cos(th2-Math.PI/2)-r2*Math.sin(th2-Math.PI/2),dy=6.9*Math.sin(th2-Math.PI/2)+r2*Math.cos(th2-Math.PI/2);
+document.getElementById("spArrow").setAttribute("transform",`translate(${last[0]+dx/Math.hypot(dx,dy)*6} ${last[1]+dy/Math.hypot(dx,dy)*6}) rotate(${Math.atan2(dy,dx)*180/Math.PI})`);})();
+const L=path.getTotalLength();
+if(!window.ENreduced){road.style.setProperty("--len",L);road.style.strokeDasharray=L;road.classList.add("draw");}
+const at=[.06,.25,.46,.68,.93];
+at.forEach((f,i)=>{
+  const p=path.getPointAtLength(L*f);
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.setAttribute("class","dot");g.setAttribute("tabindex","0");g.setAttribute("role","button");g.setAttribute("aria-label",LV[i].n);
+  g.innerHTML=`<circle cx="${p.x}" cy="${p.y}" r="${i===4?17:14}"/><text x="${p.x}" y="${p.y}">${["A1","A2","B1","B2","C1"][i]}</text>`;
+  g.addEventListener("click",()=>showLv(i));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();showLv(i);}});
+  dots.appendChild(g);
+});
+function showLv(i){
+  cur=i;const k=window.ENLANG==="kg"?1:0,v=LV[i];
+  document.querySelectorAll(".dot").forEach((d,j)=>d.classList.toggle("on",j===i));
+  document.getElementById("lvN").textContent=(i+1)+" / 5 · "+(k?"деңгээл":"уровень");
+  document.getElementById("lvT").textContent=v.n;
+  document.getElementById("lvL").innerHTML=(k?v.kg:v.ru).map(t=>`<li><svg><use href="#i-check"/></svg><span>${t}</span></li>`).join("");
+  document.getElementById("lvD").textContent=v.d[k];
+  document.getElementById("lvG").textContent=v.g[k];
+}
+showLv(0);
+
+/* ---------- Отзывы-сторис ---------- */
+const RV=[
+ {a:"Д",n:"Дария, 24",m:["менеджер · офлайн","менеджер · офлайн"],q:["Боялась открыть рот даже на простом «How are you». Через 4 месяца сама вела созвон с партнёрами из Дубая.","Жөнөкөй «How are you» дегенге да коркчумун. 4 айдан кийин Дубайдагы өнөктөштөр менен өзүм сүйлөштүм."],l:["Elementary → Pre-Intermediate","Elementary → Pre-Intermediate"]},
+ {a:"Т",n:"Темирлан, 17",m:["школьник · вечерняя группа","окуучу · кечки топ"],q:["Ходил в три центра, везде зубрёжка. Здесь на уроке больше говоришь, чем пишешь. Получил футболку «студент месяца».","Үч борборго бардым, баарында жаттоо. Бул жерде сабакта жазгандан көп сүйлөйсүң. «Айдын студенти» футболкасын алдым."],l:["Intermediate → Upper","Intermediate → Upper"]},
+ {a:"А",n:"Асель, 31",m:["мама двоих детей · утро","эки баланын апасы · эртең менен"],q:["Утренняя группа в 9:30 — единственное время, когда я свободна. Удобно, что после урока успеваю забрать детей.","9:30дагы эртең мененки топ — бош убактым ушул. Сабактан кийин балдарды алганга үлгүрөм."],l:["Pre-Intermediate → Intermediate","Pre-Intermediate → Intermediate"]},
+ {a:"Б",n:"Бекжан, 26",m:["IT · онлайн","IT · онлайн"],q:["Готовился к IELTS онлайн. Преподаватель разбирал каждое эссе. Сдал на 6.5 с первого раза.","IELTSке онлайн даярдандым. Мугалим ар бир эссени талдап берди. Биринчи жолу эле 6.5 алдым."],l:["IELTS 6.5","IELTS 6.5"]}
+];
+let ri=0,rt;
+const bars=document.getElementById("bars"),thumbs=document.getElementById("thumbs");
+bars.innerHTML=RV.map(()=>"<i><b></b></i>").join("");
+thumbs.innerHTML=RV.map((r,i)=>`<button data-i="${i}"><span class="av"><i>${r.a}</i></span>${r.n.split(",")[0]}</button>`).join("");
+thumbs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)showRv(+b.dataset.i);});
+function showRv(i){
+  ri=(i+RV.length)%RV.length;const k=window.ENLANG==="kg"?1:0,r=RV[ri];
+  document.getElementById("stA").textContent=r.a;document.getElementById("stN").textContent=r.n;
+  document.getElementById("stM").textContent=r.m[k];document.getElementById("stQ").textContent="«"+r.q[k]+"»";
+  document.getElementById("stL").innerHTML=(k?"Деңгээл: ":"Уровень: ")+"<b>"+r.l[k]+"</b>";
+  [...bars.children].forEach((b,j)=>{b.className=j<ri?"done":"";if(j===ri){void b.offsetWidth;b.className="cur";}});
+  [...thumbs.children].forEach((b,j)=>b.setAttribute("aria-current",j===ri));
+  clearTimeout(rt);if(!window.ENreduced)rt=setTimeout(()=>showRv(ri+1),6000);
+}
+document.getElementById("stNext").onclick=()=>showRv(ri+1);
+document.getElementById("stPrev").onclick=()=>showRv(ri-1);
+showRv(0);
+document.addEventListener("enlang",()=>{showLv(cur);showRv(ri);});
+ENtest(document.getElementById("qbox"));
+</script>
+</body>
+</html>
